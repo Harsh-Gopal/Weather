@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <title>Weather Forecast</title>
+    <style>
+      /* add some style to make the website more visually appealing */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h1 {
+        text-align: center;
+      }
+      #weather-info {
+        width: 500px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      #city {
+        font-size: larger;
+      }
+      #description {
+        font-style: italic;
+      }
+      #current-temp {
+        font-size: larger;
+      }
+      #forecast {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      .forecast-card {
+        width: 200px;
+        border: 1px solid black;
+        border-radius: 5px;
+        margin: 10px;
+        text-align: center;
+      }
+      .day {
+        font-size: larger;
+      }
+      .temp {
+        font-size: larger;
+      }
+      .description {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather Forecast</h1>
+    <div id="weather-info">
+      <!-- this div will be used to display the current weather info -->
+    </div>
+    <div id="forecast">
+      <!-- this div will be used to display the forecast for the next few days -->
+    </div>
+    <form>
+      <label for="city">Enter a city:</label><br>
+      <input type="text" id="city" name="city"><br>
+      <button type="button" onclick="getWeather()">Get Weather</button>
+    </form> 
+  </body>
+</html>
+
+<script>
+  // add your JavaScript code here
+  function getWeather() {
+    // get the city from the user
+    var city = document.getElementById("city").value;
+    
+    // send a request to the weather API to get the current weather and forecast
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=59446a87d1deb437a9e1e301b7f6af46")
+      .then(response => response.json())
+      .then(data => {
+        // display the current weather info
+        document.getElementById("weather-info").innerHTML = 
+          "<p id='city'>" + data.name + "</p>" +
+          "<p id='description'>" + data.weather[0].description + "</p>" +
+          "<p id='current-temp'>Current Temperature: " + data.main.temp + "°F</p>";
+      })
+      .catch(error => {
+        console.error(error);
+      });
+      
+    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=59446a87d1deb437a9e1e301b7f6af46")
